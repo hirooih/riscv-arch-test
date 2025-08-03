@@ -1,0 +1,51 @@
+# https://riscv-config.readthedocs.io/en/latest/yaml-specs.html
+
+hart_ids: [0]
+hart0:
+#   ISA: RV32IMACSUZicboz_Zicsr_Zicond_Zifencei_Zfa_Zfh_Zca_Zcb_Zcd_Zcf_Zcmop_Zba_Zbb_Zbc_Zbkb_Zbkc_Zbkx_Zbs_Zknd_Zkne_Zknh_Zksh_Zksed
+  # RVM23U32 - Zce (Zihintntl is not supported yet.)
+  ISA: RV32IMCUZicntr_Zicbop_Zicsr_Zicond_Zifencei_Zihintpause_Zimop_Zcb_Zcmop_Zba_Zbb_Zbc_Zbs_Sdext_Sdtrig
+#   ISA: RV32IMCZicsr_Zifencei
+#   ISA: RV32IMCUZicsr_Zifencei
+#   ISA: RV32IMCSUZicsr_Zifencei
+  User_Spec_Version: "2.3"
+  Privilege_Spec_Version: "1.11"
+  hw_data_misaligned_support: False
+  supported_xlen: [32]
+#   pmp_granularity: 2 # not implemented yet
+  physical_addr_sz: 32
+
+  misa:
+    # XLEN=32, MIC
+    # reset-val: 0x40001104
+    # XLEN=32, UMIC
+    reset-val: 0x40101104
+    # XLEN=32, USMIC
+    # reset-val: 0x40141104
+    rv32:
+      accessible: true
+      mxl:
+        implemented: true
+        type:
+          warl:
+            dependency_fields: []
+            legal:
+              - mxl[1:0] in [0x1]
+            wr_illegal:
+              - Unchanged
+      extensions:
+        implemented: true
+        type:
+          warl:
+            dependency_fields: []
+            legal:
+            #   - extensions[25:0] bitmask [0x0001104, 0x0000000]
+              - extensions[25:0] bitmask [0x0101104, 0x0000000]
+            #   - extensions[25:0] bitmask [0x0141104, 0x0000000]
+            wr_illegal:
+              - Unchanged
+  PMP:
+    implemented: True
+    pmp-grain: 0
+    pmp-count: 16
+    pmp-writable: 12
